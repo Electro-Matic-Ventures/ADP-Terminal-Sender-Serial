@@ -6,7 +6,7 @@ from datetime import datetime
 
 def parse_message(message):
     parts = re.split(r'(\\[xX][0-9A-Fa-f]{2})', message)
-    parts = parts[1:-1]
+    parts = [e for e in parts if e != '']
     parsed_message = b''
     for part in parts:
         if part.startswith('\\x') or part.startswith('\\X'):
