@@ -1,6 +1,7 @@
 import socket
 import argparse
 import re
+from random import randint
 import time
 from datetime import datetime
 
@@ -28,10 +29,13 @@ def send_from_input(ip, port, message):
 
 def send_from_file(ip, port, filename, interval):
     with open(filename, 'r') as file:
-        for line in file:
-            parsed_message = parse_message(line.strip())
-            send_tcpip(ip, port, parsed_message)
-            time.sleep(interval)
+        lines = [line.strip() for line in file]
+    while True:
+        line_number = randint(0,len(lines))
+        line = lines[line_number]
+        parsed = parse_message(line)
+        send_tcpip(ip, port, parsed)
+        time.sleep(interval)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Send a TCP message')
