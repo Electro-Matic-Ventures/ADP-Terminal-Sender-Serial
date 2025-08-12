@@ -31,7 +31,7 @@ def send_from_file(ip, port, filename, interval):
     with open(filename, 'r') as file:
         lines = [line.strip() for line in file]
     while True:
-        line_number = randint(0,len(lines))
+        line_number = randint(0,len(lines)-1)
         line = lines[line_number]
         parsed = parse_message(line)
         send_tcpip(ip, port, parsed)
