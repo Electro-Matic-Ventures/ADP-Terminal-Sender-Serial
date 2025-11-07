@@ -55,7 +55,10 @@ def send_from_file(filename, interval):
         parsed_message = parse_message(line)
         # send_tcpip(ip, port, parsed_message)
         send_serial(parsed_message)
-        time.sleep(interval)
+        try:
+            time.sleep(interval)
+        except Exception as e:
+            return f"failed to send: {e}"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Send a TCP message')
