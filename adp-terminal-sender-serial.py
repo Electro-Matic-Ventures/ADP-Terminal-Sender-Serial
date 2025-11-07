@@ -36,6 +36,7 @@ def send_serial(parsed_message):
             with serial.Serial(port=a,baudrate=b,bytesize=c,parity=d,stopbits=e,timeout=f) as s:
                 s.write(parsed_message)
                 s.flush()
+                s.close()
                 return f"message sent: {parsed_message}"
         except Exception as e:
             return f"Failed to send message: {e}"
@@ -45,7 +46,7 @@ def send_from_input(ip, port, message):
     # send_tcpip(ip, port, parsed_message)
     send_serial(parsed_message)
 
-def send_from_file(ip, port, filename, interval):
+def send_from_file(filename, interval):
     with open(filename, 'r') as file:
         lines = [line.strip() for line in file]
     while True:
@@ -65,16 +66,16 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--interval', type=float, help="Interval between messages in seconds")
     args = parser.parse_args()
 
-    if not args.ip:
-        parser.error("Target IP address (--ip) must be provided")
-    if not args.port:
-        parser.error("Target port number (--port) must be provided")
+    # if not args.ip:
+    #     parser.error("Target IP address (--ip) must be provided")
+    # if not args.port:
+    #     parser.error("Target port number (--port) must be provided")
 
     if args.text:
         send_from_input(args.ip, args.port, args.text)
     elif args.file:
         if not args.interval:
             parser.error("--interval must be provided when using --file")
-        send_from_file(args.ip, args.port, args.file, args.interval)
+        send_from_file(args.file, args.interval)
     else:
         parser.error("Either -t/--text or -f/--file must be provided")
