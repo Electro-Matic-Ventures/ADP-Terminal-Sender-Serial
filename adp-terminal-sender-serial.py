@@ -37,9 +37,11 @@ def send_serial(parsed_message):
                 s.write(parsed_message)
                 s.flush()
                 s.close()
-                return f"message sent: {parsed_message}"
+                print(f"message sent: {parsed_message}")
+                return 
         except Exception as e:
-            return f"Failed to send message: {e}"
+            print(f"Failed to send message: {e}")
+            return 
 
 def send_from_input(ip, port, message):
     parsed_message = parse_message(message)
@@ -58,7 +60,8 @@ def send_from_file(filename, interval):
         try:
             time.sleep(interval)
         except Exception as e:
-            return f"failed to send: {e}"
+            print(f"failed to send: {e}")
+            return 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Send a TCP message')
